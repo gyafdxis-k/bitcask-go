@@ -8,7 +8,14 @@ import (
 
 type BTree struct {
 	tree *btree.BTree
-	lock sync.RWMutex
+	lock *sync.RWMutex
+}
+
+func NewBTree() *BTree {
+	return &BTree{
+		tree: btree.New(32),
+		lock: new(sync.RWMutex),
+	}
 }
 
 func (bt *BTree) Put(key []byte, pos *data.LogRecordPos) bool {
