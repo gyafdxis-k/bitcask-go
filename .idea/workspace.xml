@@ -6,10 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fc2fc15e-0238-4855-a858-cd979dd6af4c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/log_record.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/log_record.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fio/file_io.go" beforeDir="false" afterPath="$PROJECT_DIR$/fio/file_io.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fio/io_manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/fio/io_manager.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/basic_operation.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/basic_operation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/options.go" beforeDir="false" afterPath="$PROJECT_DIR$/options.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +49,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;15&quot;,
     &quot;last_opened_file_path&quot;: &quot;/Users/gaodong/workspace/go_workspace/kv-project/bitcask-go&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -60,7 +60,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Test.TestDataFile_ReadLogRecord in bitcask-go/data">
+  <component name="RunManager" selected="Go Test.TestRandomValue in bitcask-go/util">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -68,6 +68,15 @@
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build bitcask-go/example" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bitcask-go/example" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/example/basic_operation.go" />
       <method v="2" />
     </configuration>
     <configuration name="TestDataFile_ReadLogRecord in bitcask-go/data" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -82,42 +91,6 @@
       <pattern value="^\QTestDataFile_ReadLogRecord\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDataFile_Sync in bitcask-go/data" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/data" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go/data" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDataFile_Sync\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDecoderLogRecorderHeader in bitcask-go/data" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/data" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go/data" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDecoderLogRecorderHeader\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestEncodeLogRecord in bitcask-go/data" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/data" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go/data" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestEncodeLogRecord\E$" />
-      <method v="2" />
-    </configuration>
     <configuration name="TestGetLogRecordCRC in bitcask-go/data" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$/data" />
@@ -128,6 +101,30 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestGetLogRecordCRC\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetTestKey in bitcask-go/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$/util" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bitcask-go/util" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestGetTestKey\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestRandomValue in bitcask-go/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$/util" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bitcask-go/util" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestRandomValue\E$" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -142,11 +139,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestRandomValue in bitcask-go/util" />
+        <item itemvalue="Go Test.TestGetTestKey in bitcask-go/util" />
+        <item itemvalue="Go Build.go build bitcask-go/example" />
         <item itemvalue="Go Test.TestDataFile_ReadLogRecord in bitcask-go/data" />
         <item itemvalue="Go Test.TestGetLogRecordCRC in bitcask-go/data" />
-        <item itemvalue="Go Test.TestDecoderLogRecorderHeader in bitcask-go/data" />
-        <item itemvalue="Go Test.TestEncodeLogRecord in bitcask-go/data" />
-        <item itemvalue="Go Test.TestDataFile_Sync in bitcask-go/data" />
       </list>
     </recent_temporary>
   </component>
@@ -170,7 +167,8 @@
       <workItem from="1695979135972" duration="3138000" />
       <workItem from="1696045785338" duration="6839000" />
       <workItem from="1696256091693" duration="3888000" />
-      <workItem from="1697031196854" duration="3208000" />
+      <workItem from="1697031196854" duration="3976000" />
+      <workItem from="1697035270049" duration="303000" />
     </task>
     <servers />
   </component>

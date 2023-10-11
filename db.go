@@ -22,7 +22,7 @@ type DB struct {
 	index      index.Indexer
 }
 
-func open(options Options) (*DB, error) {
+func Open(options Options) (*DB, error) {
 	if err := checkOptions(options); err != nil {
 		return nil, err
 	}
