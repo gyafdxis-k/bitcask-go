@@ -6,6 +6,14 @@ type FileIO struct {
 	fd *os.File
 }
 
+func (fio *FileIO) Size() (int64, error) {
+	stat, err := fio.fd.Stat()
+	if err != nil {
+		return 0, err
+	}
+	return stat.Size(), nil
+}
+
 func NewFileIOManager(fileName string) (*FileIO, error) {
 	fd, err := os.OpenFile(fileName, os.O_CREATE|os.O_RDWR|os.O_APPEND, DataFilePerm)
 	if err != nil {
