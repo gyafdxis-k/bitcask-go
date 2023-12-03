@@ -6,8 +6,9 @@ import (
 )
 
 func main() {
+	testDataPath := "/Users/gaodong/workspace/go_workspace/kv-project/bitcask-go/test/"
 	opts := bitcask_go.DefaultOptions
-	opts.DirPath = "/tmp/bitcask-go"
+	opts.DirPath = testDataPath
 	db, err := bitcask_go.Open(opts)
 	if err != nil {
 		panic(err)
