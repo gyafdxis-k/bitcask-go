@@ -1,6 +1,7 @@
 package bitcask_go
 
 import (
+	"bitcask-go/utils"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"testing"

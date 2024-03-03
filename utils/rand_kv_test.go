@@ -1,4 +1,4 @@
-package util
+package utils
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -7,6 +7,7 @@ import (
 
 func TestGetTestKey(t *testing.T) {
 	for i := 0; i < 10; i++ {
+		print(string(GetTestKey(i)))
 		assert.NotNil(t, string(GetTestKey(i)))
 	}
 }

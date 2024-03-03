@@ -1,4 +1,4 @@
-package util
+package utils
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 var (
 	randStr = rand.New(rand.NewSource(time.Now().Unix()))
-	letters = []byte("")
+	letters = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 )
 
 func GetTestKey(i int) []byte {
@@ -21,5 +21,5 @@ func RandomValue(n int) []byte {
 	for i := range b {
 		b[i] = letters[randStr.Intn(len(letters))]
 	}
-	return []byte("bitcask-go-value" + string(b))
+	return []byte("bitcask-go-value-" + string(b))
 }

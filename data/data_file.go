@@ -27,7 +27,7 @@ type DataFile struct {
 }
 
 func OpenDataFile(dirPath string, fileId uint32) (*DataFile, error) {
-	fileName := filepath.Join(dirPath, fmt.Sprintf("%d09d", fileId)+DataFileNameSuffix)
+	fileName := filepath.Join(dirPath, fmt.Sprintf("%09d", fileId)+DataFileNameSuffix)
 	ioManager, err := fio.NewIOManager(fileName)
 	if err != nil {
 		return nil, err

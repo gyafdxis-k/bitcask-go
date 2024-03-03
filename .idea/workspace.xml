@@ -5,7 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc2fc15e-0238-4855-a858-cd979dd6af4c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/batch.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/batch_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/iterator.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_file.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_file.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/log_record.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/log_record.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/db_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/errors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/basic_operation.go" beforeDir="false" afterPath="$PROJECT_DIR$/example/basic_operation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/btree.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/btree.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/btree_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/btree_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/options.go" beforeDir="false" afterPath="$PROJECT_DIR$/options.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/rand_kv.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/rand_kv.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/util/rand_kv_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/rand_kv_test.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,11 +70,11 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Go&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Build.go build bitcask-go/example">
+  <component name="RunManager" selected="Go Test.TestDB_NewWriteBatch3 in bitcask-go">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -67,61 +84,60 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="go build bitcask-go/example" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_Close in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go/example" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/example/basic_operation.go" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDataFile_ReadLogRecord in bitcask-go/data" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/data" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go/data" />
+      <package value="bitcask-go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDataFile_ReadLogRecord\E$" />
+      <pattern value="^\QTestDB_Close\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetLogRecordCRC in bitcask-go/data" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_NewWriteBatch in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/data" />
-      <root_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go/data" />
+      <package value="bitcask-go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestGetLogRecordCRC\E$" />
+      <pattern value="^\QTestDB_NewWriteBatch\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetTestKey in bitcask-go/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_NewWriteBatch2 in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/util" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bitcask-go" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDB_NewWriteBatch2\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestDB_NewWriteBatch3 in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bitcask-go" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDB_NewWriteBatch3\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestGetTestKey in bitcask-go/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$/utils" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go/util" />
+      <package value="bitcask-go/utils" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestGetTestKey\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestRandomValue in bitcask-go/util" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/util" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go/util" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestRandomValue\E$" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -136,11 +152,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build bitcask-go/example" />
-        <item itemvalue="Go Test.TestRandomValue in bitcask-go/util" />
-        <item itemvalue="Go Test.TestGetTestKey in bitcask-go/util" />
-        <item itemvalue="Go Test.TestDataFile_ReadLogRecord in bitcask-go/data" />
-        <item itemvalue="Go Test.TestGetLogRecordCRC in bitcask-go/data" />
+        <item itemvalue="Go Test.TestDB_NewWriteBatch3 in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_NewWriteBatch2 in bitcask-go" />
+        <item itemvalue="Go Test.TestGetTestKey in bitcask-go/utils" />
+        <item itemvalue="Go Test.TestDB_NewWriteBatch in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_Close in bitcask-go" />
       </list>
     </recent_temporary>
   </component>
@@ -168,6 +184,13 @@
       <workItem from="1697035270049" duration="2395000" />
       <workItem from="1701581118471" duration="412000" />
       <workItem from="1701581583216" duration="75000" />
+      <workItem from="1701581666016" duration="7787000" />
+      <workItem from="1701599181330" duration="1560000" />
+      <workItem from="1702823754644" duration="1765000" />
+      <workItem from="1702906804879" duration="3459000" />
+      <workItem from="1703932820968" duration="2851000" />
+      <workItem from="1704633280522" duration="1663000" />
+      <workItem from="1709435036856" duration="10760000" />
     </task>
     <servers />
   </component>

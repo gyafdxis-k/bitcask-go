@@ -20,6 +20,7 @@ type DB struct {
 	activeFile *data.DataFile
 	olderFiles map[uint32]*data.DataFile
 	index      index.Indexer
+	seqNo      uint64
 }
 
 func Open(options Options) (*DB, error) {
@@ -38,7 +39,7 @@ func Open(options Options) (*DB, error) {
 		olderFiles: make(map[uint32]*data.DataFile),
 		index:      index.NewIndexer(options.IndexType),
 	}
-
+	print("path:", options.DirPath)
 	// 加载数据文件
 	if err := db.loadDataFiles(); err != nil {
 		return nil, err
@@ -55,12 +56,12 @@ func (db *DB) Put(key []byte, value []byte) error {
 		return ErrKeyIsEmpty
 	}
 	logRecord := &data.LogRecord{
-		Key:   key,
+		Key:   logRecordKeyWithSeq(key, NonTransitionSeqNo),
 		Value: value,
 		Type:  data.LogRecordNormal,
 	}
 
-	pos, err := db.AppendLogRecord(logRecord)
+	pos, err := db.AppendLogRecordWithLock(logRecord)
 	if err != nil {
 		return err
 	}
@@ -71,6 +72,7 @@ func (db *DB) Put(key []byte, value []byte) error {
 }
 
 func (db *DB) Get(key []byte) ([]byte, error) {
+	print("key:", string(key))
 	db.mu.RLock()
 	defer db.mu.RUnlock()
 	if len(key) == 0 {
@@ -80,6 +82,36 @@ func (db *DB) Get(key []byte) ([]byte, error) {
 	if logRecordPos == nil {
 		return nil, ErrKeyNotFound
 	}
+	return db.getValueByPosition(logRecordPos)
+}
+
+func (db *DB) Delete(key []byte) error {
+	if len(key) == 0 {
+		return ErrKeyIsEmpty
+	}
+	// 现查找一下内存找key是否存在，如果存在的话直接返回
+	if pos := db.index.Get(key); pos == nil {
+		return nil
+	}
+	// 构建LogRecord 标志其是删除的
+	logRecord := &data.LogRecord{
+		Key:  logRecordKeyWithSeq(key, NonTransitionSeqNo),
+		Type: data.LogRecordDelete,
+	}
+	_, err := db.AppendLogRecordWithLock(logRecord)
+	if err != nil {
+		return nil
+	}
+	// 从内存中删除
+	ok := db.index.Delete(key)
+	if !ok {
+		return ErrIndexUpdateFailed
+	}
+	return nil
+}
+
+// 根据索引信息获取对应的value
+func (db *DB) getValueByPosition(logRecordPos *data.LogRecordPos) ([]byte, error) {
 	var dataFile *data.DataFile
 	if db.activeFile.FileId == logRecordPos.Fid {
 		dataFile = db.activeFile
@@ -99,34 +131,14 @@ func (db *DB) Get(key []byte) ([]byte, error) {
 	return logRecord.Value, nil
 }
 
-func (db *DB) Delete(key []byte) error {
-	if len(key) == 0 {
-		return ErrKeyIsEmpty
-	}
-	// 现查找一下内存找key是否存在，如果存在的话直接返回
-	if pos := db.index.Get(key); pos == nil {
-		return nil
-	}
-	// 构建LogRecord 标志其是删除的
-	logRecord := &data.LogRecord{
-		Key:  key,
-		Type: data.LogRecordDelete,
-	}
-	_, err := db.AppendLogRecord(logRecord)
-	if err != nil {
-		return nil
-	}
-	// 从内存中删除
-	ok := db.index.Delete(key)
-	if !ok {
-		return ErrIndexUpdateFailed
-	}
-	return nil
+func (db *DB) AppendLogRecordWithLock(logRecord *data.LogRecord) (*data.LogRecordPos, error) {
+	db.mu.Lock()
+	defer db.mu.Unlock()
+	return db.AppendLogRecord(logRecord)
 }
 
 func (db *DB) AppendLogRecord(logRecord *data.LogRecord) (*data.LogRecordPos, error) {
-	db.mu.Lock()
-	defer db.mu.Unlock()
+
 	if db.activeFile == nil {
 		if err := db.setActiveDataFile(); err != nil {
 			return nil, err
@@ -216,6 +228,20 @@ func (db *DB) loadIndexFromDataFiles() error {
 	if len(db.fileIds) == 0 {
 		return nil
 	}
+	updateIndex := func(key []byte, typ data.LogRecordType, pos *data.LogRecordPos) {
+		var ok bool
+		if typ == data.LogRecordDelete {
+			ok = db.index.Delete(key)
+		} else {
+			ok = db.index.Put(key, pos)
+		}
+		if !ok {
+			panic("failed update index in memeory")
+		}
+	}
+	// 暂存事务的数据
+	transactionRecords := make(map[uint64][]*data.Transaction)
+	var currentSeqNo uint64 = NonTransitionSeqNo
 	// 遍历所有文件id，处理文件中的记录
 	for i, fid := range db.fileIds {
 		var fileId = uint32(fid)
@@ -236,10 +262,30 @@ func (db *DB) loadIndexFromDataFiles() error {
 			}
 			// 构建内存索引
 			logRecordPos := &data.LogRecordPos{Fid: fileId, Offset: offset}
-			if logRecord.Type == data.LogRecordDelete {
-				db.index.Delete(logRecord.Key)
+
+			// 解析key 拿到seq
+			realKey, seqNo := parseLogRecordKey(logRecord.Key)
+			if seqNo == NonTransitionSeqNo {
+				// 非事务操作直接更新索引
+				updateIndex(realKey, logRecord.Type, logRecordPos)
 			} else {
-				db.index.Put(logRecord.Key, logRecordPos)
+				//
+				if logRecord.Type == data.LogRecordTxnFinished {
+					for _, txnRecord := range transactionRecords[seqNo] {
+						updateIndex(txnRecord.Record.Key, txnRecord.Record.Type, txnRecord.Pos)
+					}
+					delete(transactionRecords, seqNo)
+				} else {
+					logRecord.Key = realKey
+					transactionRecords[seqNo] = append(transactionRecords[seqNo], &data.Transaction{
+						Record: logRecord,
+						Pos:    logRecordPos,
+					})
+				}
+			}
+
+			if seqNo > currentSeqNo {
+				currentSeqNo = seqNo
 			}
 			// 递增offset 下一次从新的位置开始读取
 			offset += size
@@ -248,6 +294,69 @@ func (db *DB) loadIndexFromDataFiles() error {
 			db.activeFile.WriteOff = offset
 		}
 	}
+	db.seqNo = currentSeqNo
+	return nil
+}
+
+func (db *DB) Close() error {
+	if db.activeFile == nil {
+		return nil
+	}
+	db.mu.Lock()
+
+	defer db.mu.Unlock()
+	if err := db.activeFile.Close(); err != nil {
+		return err
+	}
+	for _, file := range db.olderFiles {
+		if err := file.Close(); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (db *DB) ListKeys() [][]byte {
+	iterator := db.index.Iterator(false)
+	keys := make([][]byte, db.index.Size())
+	var idx int
+	for iterator.Rewind(); iterator.Valid(); iterator.Next() {
+		keys[idx] = iterator.Key()
+		idx += 1
+	}
+	return keys
+}
+
+func (db *DB) Fold(f func(key []byte, value []byte) bool) error {
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+	iterator := db.index.Iterator(false)
+	for iterator.Rewind(); iterator.Valid(); iterator.Next() {
+		value, err := db.getValueByPosition(iterator.Value())
+		if err != nil {
+			return err
+		}
+		if !f(iterator.Key(), value) {
+			break
+		}
+	}
+	return nil
+}
+
+func (db *DB) Sync() error {
+	if db.activeFile == nil {
+		return nil
+	}
+	db.mu.Lock()
+	defer db.mu.Unlock()
+	return db.activeFile.Sync()
+}
+
+func (db *DB) Stat() error {
+	return nil
+}
+
+func (db *DB) Backup(dir string) error {
 	return nil
 }
 

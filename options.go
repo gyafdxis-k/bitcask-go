@@ -9,6 +9,15 @@ type Options struct {
 	IndexType    IndexerType
 }
 
+type IteratorOptions struct {
+	Prefix  []byte
+	Reverse bool
+}
+
+type WriteBatchOptions struct {
+	MaxBatchNum uint
+	SyncWrites  bool
+}
 type IndexerType = int8
 
 const (
@@ -21,6 +30,16 @@ const (
 var DefaultOptions = Options{
 	DirPath:      os.TempDir(),
 	DataFileSize: 256 * 1024 * 1024,
-	SyncWrite:    false,
+	SyncWrite:    true,
 	IndexType:    BTree,
+}
+
+var DefaultIteratorOptions = IteratorOptions{
+	Prefix:  nil,
+	Reverse: false,
+}
+
+var DefaultWriteBatchOptions = WriteBatchOptions{
+	MaxBatchNum: 10000,
+	SyncWrites:  true,
 }

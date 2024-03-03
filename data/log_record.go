@@ -10,6 +10,7 @@ type LogRecordType = byte
 const (
 	LogRecordNormal LogRecordType = iota
 	LogRecordDelete
+	LogRecordTxnFinished = 3
 )
 
 type LogRecordHeader struct {
@@ -27,6 +28,11 @@ type LogRecord struct {
 type LogRecordPos struct {
 	Fid    uint32
 	Offset int64
+}
+
+type Transaction struct {
+	Record *LogRecord
+	Pos    *LogRecordPos
 }
 
 func EncodeLogRecord(logRecord *LogRecord) ([]byte, int64) {
