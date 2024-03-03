@@ -15,6 +15,9 @@ var (
 )
 
 const DataFileNameSuffix = ".data"
+const HintFileName = "hint-index"
+
+const MergeFinishedFileName = "merge-finished"
 
 // crc type keysize valuesize
 // 4  + 1 + 5 + 5
@@ -27,8 +30,25 @@ type DataFile struct {
 }
 
 func OpenDataFile(dirPath string, fileId uint32) (*DataFile, error) {
-	fileName := filepath.Join(dirPath, fmt.Sprintf("%09d", fileId)+DataFileNameSuffix)
-	ioManager, err := fio.NewIOManager(fileName)
+	fileName := GetDataFileName(dirPath, fileId)
+	return newDataFile(fileName, fileId)
+}
+
+func OpenHintFile(dirPath string) (*DataFile, error) {
+	fileName := filepath.Join(dirPath, HintFileName)
+	return newDataFile(fileName, 0)
+}
+
+func OpenMergeFinishedFile(dirPath string) (*DataFile, error) {
+	fileName := filepath.Join(dirPath, MergeFinishedFileName)
+	return newDataFile(fileName, 0)
+}
+
+func GetDataFileName(dirPath string, fileId uint32) string {
+	return filepath.Join(dirPath, fmt.Sprintf("%09d", fileId)+DataFileNameSuffix)
+}
+func newDataFile(filename string, fileId uint32) (*DataFile, error) {
+	ioManager, err := fio.NewFileIOManager(filename)
 	if err != nil {
 		return nil, err
 	}
@@ -89,6 +109,14 @@ func (df *DataFile) Write(buf []byte) error {
 	return nil
 }
 
+func (df *DataFile) WriteHintRecord(key []byte, pos *LogRecordPos) error {
+	record := &LogRecord{
+		Key:   key,
+		Value: EncodeLogRecordPos(pos),
+	}
+	encRecord, _ := EncodeLogRecord(record)
+	return df.Write(encRecord)
+}
 func (df *DataFile) Sync() error {
 	return df.IoManager.Sync()
 }
