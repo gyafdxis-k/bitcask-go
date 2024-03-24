@@ -6,6 +6,7 @@ import (
 	"bitcask-go/utils"
 	"errors"
 	"fmt"
+	"github.com/gofrs/flock"
 	"io"
 	"os"
 	"path/filepath"
@@ -30,6 +31,7 @@ type DB struct {
 	isMerging       bool
 	seqNoFileExists bool //存储事务的序列号
 	isInitial       bool
+	fileLock        *flock.Flock
 }
 
 // Stat 存储引擎统计信息
@@ -59,12 +61,21 @@ func Open(options Options) (*DB, error) {
 			return nil, err
 		}
 	}
+	fileLock := flock.New(filepath.Join(options.DirPath, fileLockName))
+	hold, err := fileLock.TryLock()
+	if err != nil {
+		return nil, err
+	}
+	if !hold {
+		return nil, ErrDatabaseIsUsing
+	}
 	db := &DB{
 		options:    options,
 		mu:         new(sync.RWMutex),
 		olderFiles: make(map[uint32]*data.DataFile),
 		index:      index.NewIndexer(options.IndexType, options.DirPath, options.SyncWrite),
 		isInitial:  isInitial,
+		fileLock:   fileLock,
 	}
 	if err := db.loadMergeFiles(); err != nil {
 		return nil, err
@@ -354,6 +365,11 @@ func (db *DB) loadIndexFromDataFiles() error {
 }
 
 func (db *DB) Close() error {
+	defer func() {
+		if err := db.fileLock.Unlock(); err != nil {
+			panic(fmt.Sprintf("db directory file unlock failed"))
+		}
+	}()
 	if db.activeFile == nil {
 		return nil
 	}

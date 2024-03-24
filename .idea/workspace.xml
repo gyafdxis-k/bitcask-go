@@ -6,15 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fc2fc15e-0238-4855-a858-cd979dd6af4c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/batch.go" beforeDir="false" afterPath="$PROJECT_DIR$/batch.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/data_file.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_file.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index/btree.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/btree.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merge.go" beforeDir="false" afterPath="$PROJECT_DIR$/merge.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/options.go" beforeDir="false" afterPath="$PROJECT_DIR$/options.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +60,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Test.TestDB_NewWriteBatch3 in bitcask-go">
+  <component name="RunManager" selected="Go Test.TestDB_FileLock in bitcask-go">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -76,7 +70,7 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_Close in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_Delete in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -84,10 +78,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_Close\E$" />
+      <pattern value="^\QTestDB_Delete\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_NewWriteBatch in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_FileLock in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -95,10 +89,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_NewWriteBatch\E$" />
+      <pattern value="^\QTestDB_FileLock\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_NewWriteBatch2 in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_Get in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -106,10 +100,10 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_NewWriteBatch2\E$" />
+      <pattern value="^\QTestDB_Get\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_NewWriteBatch3 in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_Put in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -117,19 +111,18 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_NewWriteBatch3\E$" />
+      <pattern value="^\QTestDB_Put\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetTestKey in bitcask-go/utils" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestOpen in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/utils" />
-      <root_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go/utils" />
+      <package value="bitcask-go" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestGetTestKey\E$" />
+      <pattern value="^\QTestOpen\E$" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -144,11 +137,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestDB_NewWriteBatch3 in bitcask-go" />
-        <item itemvalue="Go Test.TestDB_NewWriteBatch2 in bitcask-go" />
-        <item itemvalue="Go Test.TestGetTestKey in bitcask-go/utils" />
-        <item itemvalue="Go Test.TestDB_NewWriteBatch in bitcask-go" />
-        <item itemvalue="Go Test.TestDB_Close in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_FileLock in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_Put in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_Get in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_Delete in bitcask-go" />
+        <item itemvalue="Go Test.TestOpen in bitcask-go" />
       </list>
     </recent_temporary>
   </component>
@@ -192,5 +185,16 @@
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/index/index.go</url>
+          <line>9</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
