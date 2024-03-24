@@ -2,6 +2,7 @@ package bitcask_go
 
 import (
 	"bitcask-go/data"
+	"bitcask-go/fio"
 	"bitcask-go/index"
 	"bitcask-go/utils"
 	"errors"
@@ -32,6 +33,7 @@ type DB struct {
 	seqNoFileExists bool //存储事务的序列号
 	isInitial       bool
 	fileLock        *flock.Flock
+	bytesWrite      uint // 当前写了多少个字节
 }
 
 // Stat 存储引擎统计信息
@@ -95,11 +97,24 @@ func Open(options Options) (*DB, error) {
 		if err := db.loadIndexFromDataFiles(); err != nil {
 			return nil, err
 		}
+		// 重置 IO 类型为  标准文件IO
+		if db.options.MMapAtStartup {
+			if err := db.resetIOType(); err != nil {
+				return nil, err
+			}
+		}
 	}
 
 	if options.IndexType == BPlusTree {
 		if err := db.loadSeqNo(); err != nil {
 			return nil, err
+		}
+		if db.activeFile != nil {
+			size, err := db.activeFile.IoManager.Size()
+			if err != nil {
+				return nil, err
+			}
+			db.activeFile.WriteOff = size
 		}
 	}
 	return db, nil
@@ -217,6 +232,20 @@ func (db *DB) AppendLogRecord(logRecord *data.LogRecord) (*data.LogRecordPos, er
 			return nil, err
 		}
 	}
+	db.bytesWrite += uint(size)
+	// 根据用户配置决定是否持久化
+	var needSync = db.options.SyncWrite
+	if !needSync && db.options.BytePerSync > 0 && db.bytesWrite > db.options.BytePerSync {
+		needSync = true
+	}
+	if needSync {
+		if err := db.activeFile.Sync(); err != nil {
+			return nil, err
+		}
+		if db.bytesWrite > 0 {
+			db.bytesWrite = 0
+		}
+	}
 	pos := &data.LogRecordPos{
 		Fid:    db.activeFile.FileId,
 		Offset: writeOff,
@@ -229,7 +258,7 @@ func (db *DB) setActiveDataFile() error {
 	if db.activeFile != nil {
 		initialFileId = db.activeFile.FileId + 1
 	}
-	dataFile, err := data.OpenDataFile(db.options.DirPath, initialFileId)
+	dataFile, err := data.OpenDataFile(db.options.DirPath, initialFileId, fio.StandardFIO)
 	if err != nil {
 		return err
 	}
@@ -259,7 +288,11 @@ func (db *DB) loadDataFiles() error {
 	sort.Ints(fileIds)
 	db.fileIds = fileIds
 	for i, fid := range fileIds {
-		dataFile, err := data.OpenDataFile(db.options.DirPath, uint32(fid))
+		ioType := fio.StandardFIO
+		if db.options.MMapAtStartup {
+			ioType = fio.MemoryMap
+		}
+		dataFile, err := data.OpenDataFile(db.options.DirPath, uint32(fid), ioType)
 		if err != nil {
 			return err
 		}
@@ -490,5 +523,20 @@ func (db *DB) loadSeqNo() error {
 	}
 	db.seqNo = seqNo
 	db.seqNoFileExists = true
+	return nil
+}
+
+func (db *DB) resetIOType() error {
+	if db.activeFile == nil {
+		return nil
+	}
+	if err := db.activeFile.SetIOManager(db.options.DirPath, fio.StandardFIO); err != nil {
+		return err
+	}
+	for _, dataFile := range db.olderFiles {
+		if err := dataFile.SetIOManager(db.options.DirPath, fio.StandardFIO); err != nil {
+			return err
+		}
+	}
 	return nil
 }

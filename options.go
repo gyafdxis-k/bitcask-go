@@ -6,7 +6,11 @@ type Options struct {
 	DirPath      string
 	DataFileSize int64
 	SyncWrite    bool
-	IndexType    IndexerType
+	// 累计写到多少持久化
+	BytePerSync uint
+	IndexType   IndexerType
+	// 启动时是否加载mmap
+	MMapAtStartup bool
 }
 
 type IteratorOptions struct {
@@ -29,10 +33,12 @@ const (
 )
 
 var DefaultOptions = Options{
-	DirPath:      os.TempDir(),
-	DataFileSize: 256 * 1024 * 1024,
-	SyncWrite:    true,
-	IndexType:    BTree,
+	DirPath:       os.TempDir(),
+	DataFileSize:  256 * 1024 * 1024,
+	SyncWrite:     true,
+	BytePerSync:   0,
+	IndexType:     BTree,
+	MMapAtStartup: true,
 }
 
 var DefaultIteratorOptions = IteratorOptions{

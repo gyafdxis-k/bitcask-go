@@ -6,9 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="fc2fc15e-0238-4855-a858-cd979dd6af4c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_file.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_file.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/data_file_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/data_file_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/db_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fio/io_manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/fio/io_manager.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/options.go" beforeDir="false" afterPath="$PROJECT_DIR$/options.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +65,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Test.TestDB_FileLock in bitcask-go">
+  <component name="RunManager" selected="Go Test.TestDB_Open2 in bitcask-go">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -68,17 +73,6 @@
       <kind value="FILE" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDB_Delete in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDB_Delete\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestDB_FileLock in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -103,6 +97,17 @@
       <pattern value="^\QTestDB_Get\E$" />
       <method v="2" />
     </configuration>
+    <configuration name="TestDB_Open2 in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bitcask-go" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestDB_Open2\E$" />
+      <method v="2" />
+    </configuration>
     <configuration name="TestDB_Put in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -114,15 +119,16 @@
       <pattern value="^\QTestDB_Put\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestOpen in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestMMap_Read in bitcask-go/fio" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$/fio" />
+      <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go" />
+      <package value="bitcask-go/fio" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestOpen\E$" />
+      <pattern value="^\QTestMMap_Read\E$" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -137,11 +143,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Test.TestDB_Open2 in bitcask-go" />
+        <item itemvalue="Go Test.TestMMap_Read in bitcask-go/fio" />
         <item itemvalue="Go Test.TestDB_FileLock in bitcask-go" />
         <item itemvalue="Go Test.TestDB_Put in bitcask-go" />
         <item itemvalue="Go Test.TestDB_Get in bitcask-go" />
-        <item itemvalue="Go Test.TestDB_Delete in bitcask-go" />
-        <item itemvalue="Go Test.TestOpen in bitcask-go" />
       </list>
     </recent_temporary>
   </component>
@@ -194,7 +200,20 @@
           <line>9</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/db_test.go</url>
+          <line>390</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/db_test.go</url>
+          <line>389</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/bitcask_go$TestDB_Open2_in_bitcask_go.out" NAME="TestDB_Open2 in bitcask-go Coverage Results" MODIFIED="1711284487766" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
