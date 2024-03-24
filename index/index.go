@@ -7,12 +7,13 @@ import (
 )
 
 type Indexer interface {
-	Put(key []byte, pos *data.LogRecordPos) bool
+	Put(key []byte, pos *data.LogRecordPos) *data.LogRecordPos
 	Get(key []byte) *data.LogRecordPos
-	Delete(key []byte) bool
+	Delete(key []byte) (*data.LogRecordPos, bool)
 
 	Size() int
 	Iterator(reverse bool) Iterator
+	Close() error
 }
 
 type IndexType = int8
@@ -22,14 +23,17 @@ const (
 	Btree IndexType = iota + 1
 	// ART 自适应基数树索引
 	ART
+	BPTree
 )
 
-func NewIndexer(typ IndexType) Indexer {
+func NewIndexer(typ IndexType, dirPath string, sync bool) Indexer {
 	switch typ {
 	case Btree:
 		return NewBTree()
 	case ART:
-		return nil
+		return NewART()
+	case BPTree:
+		return NewBPlusTree(dirPath, sync)
 	default:
 		panic("unsupported index type")
 	}

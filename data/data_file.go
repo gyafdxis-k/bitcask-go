@@ -19,6 +19,8 @@ const HintFileName = "hint-index"
 
 const MergeFinishedFileName = "merge-finished"
 
+const SeqNoFileName = "seq-no"
+
 // crc type keysize valuesize
 // 4  + 1 + 5 + 5
 const maxLogRecordHeaderSize = binary.MaxVarintLen32*2 + 1 + 4
@@ -41,6 +43,11 @@ func OpenHintFile(dirPath string) (*DataFile, error) {
 
 func OpenMergeFinishedFile(dirPath string) (*DataFile, error) {
 	fileName := filepath.Join(dirPath, MergeFinishedFileName)
+	return newDataFile(fileName, 0)
+}
+
+func OpenSeqNoFile(dirPath string) (*DataFile, error) {
+	fileName := filepath.Join(dirPath, SeqNoFileName)
 	return newDataFile(fileName, 0)
 }
 

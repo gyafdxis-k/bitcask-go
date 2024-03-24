@@ -3,7 +3,9 @@ package bitcask_go
 import (
 	"bitcask-go/data"
 	"bitcask-go/index"
+	"bitcask-go/utils"
 	"errors"
+	"fmt"
 	"io"
 	"os"
 	"path/filepath"
@@ -13,24 +15,45 @@ import (
 	"sync"
 )
 
+const seqNoKey = "seq.no"
+
 type DB struct {
 	options Options
 	mu      *sync.RWMutex
 	// 文件id只能在加载索引的时候使用，不能在其他地方更新和使用
-	fileIds    []int
-	activeFile *data.DataFile
-	olderFiles map[uint32]*data.DataFile
-	index      index.Indexer
-	seqNo      uint64
-	isMerging  bool
+	fileIds         []int
+	activeFile      *data.DataFile
+	olderFiles      map[uint32]*data.DataFile
+	index           index.Indexer
+	seqNo           uint64
+	isMerging       bool
+	seqNoFileExists bool //存储事务的序列号
+	isInitial       bool
+}
+
+// Stat 存储引擎统计信息
+type Stat struct {
+	KeyNum          uint  // key 的总数量
+	DataFileNum     uint  // 数据文件的数量
+	ReclaimableSize int64 // 可以进行 merge 回收的数据量，字节为单位
+	DiskSize        int64 // 数据目录所占磁盘空间大小
+}
+
+func (s Stat) Error() string {
+	//TODO implement me
+	panic("implement me")
 }
 
 func Open(options Options) (*DB, error) {
 	if err := checkOptions(options); err != nil {
 		return nil, err
 	}
+
+	var isInitial bool
+
 	// 判断目录是否存在，如果目录不存在就要去创建这个目录
 	if _, err := os.Stat(options.DirPath); err != nil {
+		isInitial = true
 		if err = os.Mkdir(options.DirPath, os.ModeDir); err != nil {
 			return nil, err
 		}
@@ -39,7 +62,8 @@ func Open(options Options) (*DB, error) {
 		options:    options,
 		mu:         new(sync.RWMutex),
 		olderFiles: make(map[uint32]*data.DataFile),
-		index:      index.NewIndexer(options.IndexType),
+		index:      index.NewIndexer(options.IndexType, options.DirPath, options.SyncWrite),
+		isInitial:  isInitial,
 	}
 	if err := db.loadMergeFiles(); err != nil {
 		return nil, err
@@ -49,14 +73,22 @@ func Open(options Options) (*DB, error) {
 		return nil, err
 	}
 
-	// 从 hint 索引文件中加载索引
-
-	if err := db.loadIndexFromHintFile(); err != nil {
-		return nil, err
+	// B+ 树的索引 不需要从数据文件中加载索引
+	if options.IndexType != BPlusTree {
+		// 从 hint 索引文件中加载索引
+		if err := db.loadIndexFromHintFile(); err != nil {
+			return nil, err
+		}
+		// 加载索引
+		if err := db.loadIndexFromDataFiles(); err != nil {
+			return nil, err
+		}
 	}
-	// 加载索引
-	if err := db.loadIndexFromDataFiles(); err != nil {
-		return nil, err
+
+	if options.IndexType == BPlusTree {
+		if err := db.loadSeqNo(); err != nil {
+			return nil, err
+		}
 	}
 	return db, nil
 }
@@ -75,7 +107,7 @@ func (db *DB) Put(key []byte, value []byte) error {
 	if err != nil {
 		return err
 	}
-	if ok := db.index.Put(key, pos); !ok {
+	if ok := db.index.Put(key, pos); ok == nil {
 		return ErrIndexUpdateFailed
 	}
 	return nil
@@ -113,7 +145,7 @@ func (db *DB) Delete(key []byte) error {
 		return nil
 	}
 	// 从内存中删除
-	ok := db.index.Delete(key)
+	_, ok := db.index.Delete(key)
 	if !ok {
 		return ErrIndexUpdateFailed
 	}
@@ -254,9 +286,9 @@ func (db *DB) loadIndexFromDataFiles() error {
 	updateIndex := func(key []byte, typ data.LogRecordType, pos *data.LogRecordPos) {
 		var ok bool
 		if typ == data.LogRecordDelete {
-			ok = db.index.Delete(key)
+			_, ok = db.index.Delete(key)
 		} else {
-			ok = db.index.Put(key, pos)
+			_ = db.index.Put(key, pos)
 		}
 		if !ok {
 			panic("failed update index in memeory")
@@ -330,8 +362,23 @@ func (db *DB) Close() error {
 		return nil
 	}
 	db.mu.Lock()
-
 	defer db.mu.Unlock()
+
+	// 保存当前事务序列号
+	seqNoFile, err := data.OpenSeqNoFile(db.options.DirPath)
+	if err != nil {
+		return err
+	}
+
+	record := &data.LogRecord{
+		Key:   []byte(seqNoKey),
+		Value: []byte(strconv.FormatUint(db.seqNo, 10)),
+	}
+	encRecord, _ := data.EncodeLogRecord(record)
+	err = seqNoFile.Write(encRecord)
+	if err != nil {
+		return err
+	}
 	if err := db.activeFile.Close(); err != nil {
 		return err
 	}
@@ -380,11 +427,30 @@ func (db *DB) Sync() error {
 }
 
 func (db *DB) Stat() error {
-	return nil
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+
+	var dataFiles = uint(len(db.olderFiles))
+	if db.activeFile != nil {
+		dataFiles += 1
+	}
+
+	dirSize, err := utils.DirSize(db.options.DirPath)
+	if err != nil {
+		panic(fmt.Sprintf("failed to get dir size : %v", err))
+	}
+	return &Stat{
+		KeyNum:          uint(db.index.Size()),
+		DataFileNum:     dataFiles,
+		ReclaimableSize: db.reclaimSize,
+		DiskSize:        dirSize,
+	}
 }
 
 func (db *DB) Backup(dir string) error {
-	return nil
+	db.mu.RLock()
+	defer db.mu.RUnlock()
+	return utils.CopyDir(db.options.DirPath, dir, []string{fileLockName})
 }
 
 func checkOptions(options Options) error {
@@ -394,5 +460,24 @@ func checkOptions(options Options) error {
 	if options.DataFileSize <= 0 {
 		return errors.New("database datafile size is less than 0")
 	}
+	return nil
+}
+
+func (db *DB) loadSeqNo() error {
+	filename := filepath.Join(db.options.DirPath, data.SeqNoFileName)
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		return nil
+	}
+	seqNoFile, err := data.OpenSeqNoFile(db.options.DirPath)
+	if err != nil {
+		return err
+	}
+	record, _, err := seqNoFile.ReadLogRecord(0)
+	seqNo, err := strconv.ParseUint(string(record.Value), 10, 64)
+	if err != nil {
+		return err
+	}
+	db.seqNo = seqNo
+	db.seqNoFileExists = true
 	return nil
 }

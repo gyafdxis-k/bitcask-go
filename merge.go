@@ -2,6 +2,7 @@ package bitcask_go
 
 import (
 	"bitcask-go/data"
+	"errors"
 	"io"
 	"os"
 	"path"
@@ -20,7 +21,7 @@ func (db *DB) Merge() error {
 	db.mu.Lock()
 	if db.isMerging {
 		db.mu.Unlock()
-		return ErrMergeIsProgress
+		return errors.New("merge is process, try again")
 	}
 	db.isMerging = true
 	defer func() {
@@ -160,6 +161,9 @@ func (db *DB) loadMergeFiles() error {
 		if entry.Name() == data.MergeFinishedFileName {
 			mergeFinished = true
 		}
+		if entry.Name() == data.SeqNoFileName {
+			continue
+		}
 	}
 	if !mergeFinished {
 		return nil
@@ -239,4 +243,5 @@ func (db *DB) loadIndexFromHintFile() error {
 		offset += size
 	}
 
+	return nil
 }
