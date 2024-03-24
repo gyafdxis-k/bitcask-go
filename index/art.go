@@ -32,8 +32,8 @@ func (art *AdaptiveRadixTree) Put(key []byte, pos *data.LogRecordPos) *data.LogR
 }
 func (art *AdaptiveRadixTree) Get(key []byte) *data.LogRecordPos {
 	art.lock.RLock()
-	defer art.lock.Unlock()
 	value, found := art.tree.Search(key)
+	art.lock.RUnlock()
 	if !found {
 		return nil
 	}
