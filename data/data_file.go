@@ -14,12 +14,11 @@ var (
 	ErrInvalidCRC = errors.New("invalid crc value, log record may be corrupted")
 )
 
+const SeqNoFileName = "seq-no"
 const DataFileNameSuffix = ".data"
 const HintFileName = "hint-index"
 
 const MergeFinishedFileName = "merge-finished"
-
-const SeqNoFileName = "seq-no"
 
 // crc type keysize valuesize
 // 4  + 1 + 5 + 5
