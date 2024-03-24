@@ -16,6 +16,7 @@ import (
 )
 
 const seqNoKey = "seq.no"
+const fileLockName = "flock"
 
 type DB struct {
 	options Options
@@ -107,9 +108,7 @@ func (db *DB) Put(key []byte, value []byte) error {
 	if err != nil {
 		return err
 	}
-	if ok := db.index.Put(key, pos); ok == nil {
-		return ErrIndexUpdateFailed
-	}
+	db.index.Put(key, pos)
 	return nil
 }
 
@@ -284,14 +283,11 @@ func (db *DB) loadIndexFromDataFiles() error {
 	}
 
 	updateIndex := func(key []byte, typ data.LogRecordType, pos *data.LogRecordPos) {
-		var ok bool
+
 		if typ == data.LogRecordDelete {
-			_, ok = db.index.Delete(key)
+			_, _ = db.index.Delete(key)
 		} else {
 			_ = db.index.Put(key, pos)
-		}
-		if !ok {
-			panic("failed update index in memeory")
 		}
 	}
 	// 暂存事务的数据
@@ -440,10 +436,9 @@ func (db *DB) Stat() error {
 		panic(fmt.Sprintf("failed to get dir size : %v", err))
 	}
 	return &Stat{
-		KeyNum:          uint(db.index.Size()),
-		DataFileNum:     dataFiles,
-		ReclaimableSize: db.reclaimSize,
-		DiskSize:        dirSize,
+		KeyNum:      uint(db.index.Size()),
+		DataFileNum: dataFiles,
+		DiskSize:    dirSize,
 	}
 }
 

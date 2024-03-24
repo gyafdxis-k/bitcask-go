@@ -127,6 +127,6 @@ func logRecordKeyWithSeq(key []byte, seqNo uint64) []byte {
 
 func parseLogRecordKey(key []byte) ([]byte, uint64) {
 	seqNo, n := binary.Uvarint(key)
-	realKey := key[:n]
+	realKey := key[n:]
 	return realKey, seqNo
 }

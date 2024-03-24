@@ -15,8 +15,15 @@ type BPlusTree struct {
 }
 
 func (bpt *BPlusTree) Size() int {
-	//TODO implement me
-	return bpt.Size()
+	var size int
+	if err := bpt.tree.View(func(tx *bbolt.Tx) error {
+		bucket := tx.Bucket(indexBucketName)
+		size = bucket.Stats().KeyN
+		return nil
+	}); err != nil {
+		panic("failed to get size in bptree")
+	}
+	return size
 }
 
 func NewBPlusTree(dirPath string, syncWrites bool) *BPlusTree {
