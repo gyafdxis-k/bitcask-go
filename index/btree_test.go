@@ -13,6 +13,9 @@ func TestBTree_Put(t *testing.T) {
 
 	res2 := bt.Put([]byte("a"), &data.LogRecordPos{Fid: 1, Offset: 100})
 	assert.Nil(t, res2)
+
+	res2 = bt.Put([]byte("a"), &data.LogRecordPos{Fid: 1, Offset: 12})
+	assert.Nil(t, res2)
 }
 
 func TestBTree_Get(t *testing.T) {

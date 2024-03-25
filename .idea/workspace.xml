@@ -4,7 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fc2fc15e-0238-4855-a858-cd979dd6af4c" name="Changes" comment="" />
+    <list default="true" id="fc2fc15e-0238-4855-a858-cd979dd6af4c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/batch.go" beforeDir="false" afterPath="$PROJECT_DIR$/batch.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/log_record.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/log_record.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/db_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/errors.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fio/io_manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/fio/io_manager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index/btree_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/btree_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/merge.go" beforeDir="false" afterPath="$PROJECT_DIR$/merge.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/options.go" beforeDir="false" afterPath="$PROJECT_DIR$/options.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -55,7 +66,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Test.TestDB_Open2 in bitcask-go">
+  <component name="RunManager" selected="Go Build.go build main.go">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -65,7 +76,20 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_FileLock in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <EXTENSION ID="com.fapiko.jetbrains.plugins.better_direnv.runconfigs.GolandRunConfigurationExtension">
+        <option name="DIRENV_ENABLED" value="false" />
+        <option name="DIRENV_TRUSTED" value="false" />
+      </EXTENSION>
+      <kind value="PACKAGE" />
+      <package value="bitcask-go" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/http/main.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestDB_Delete in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -73,7 +97,7 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_FileLock\E$" />
+      <pattern value="^\QTestDB_Delete\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestDB_Get in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -87,7 +111,7 @@
       <pattern value="^\QTestDB_Get\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_Open2 in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestDB_ListKeys in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
@@ -95,7 +119,7 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_Open2\E$" />
+      <pattern value="^\QTestDB_ListKeys\E$" />
       <method v="2" />
     </configuration>
     <configuration name="TestDB_Put in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
@@ -107,18 +131,6 @@
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestDB_Put\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestMMap_Read in bitcask-go/fio" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$/fio" />
-      <root_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go/fio" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestMMap_Read\E$" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -133,11 +145,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.TestDB_Open2 in bitcask-go" />
-        <item itemvalue="Go Test.TestMMap_Read in bitcask-go/fio" />
-        <item itemvalue="Go Test.TestDB_FileLock in bitcask-go" />
+        <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Go Test.TestDB_Put in bitcask-go" />
         <item itemvalue="Go Test.TestDB_Get in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_Delete in bitcask-go" />
+        <item itemvalue="Go Test.TestDB_ListKeys in bitcask-go" />
       </list>
     </recent_temporary>
   </component>
@@ -173,11 +185,23 @@
       <workItem from="1704633280522" duration="1663000" />
       <workItem from="1709435036856" duration="21168000" />
       <workItem from="1710937942508" duration="9969000" />
+      <workItem from="1711370688760" duration="3796000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
@@ -186,14 +210,29 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/index/index.go</url>
-          <line>9</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/db_test.go</url>
           <line>389</line>
           <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/db_test.go</url>
+          <line>363</line>
+          <option name="timeStamp" value="27" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/db_test.go</url>
+          <line>80</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/db.go</url>
+          <line>405</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/db.go</url>
+          <line>409</line>
+          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

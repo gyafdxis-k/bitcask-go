@@ -30,5 +30,4 @@ func NewIOManager(fileName string, ioType FileIOType) (IOManager, error) {
 	default:
 		panic("unsupported io type")
 	}
-	return NewFileIOManager(fileName)
 }
