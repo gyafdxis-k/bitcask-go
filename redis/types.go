@@ -154,6 +154,93 @@ func (rds *RedisDataStructure) HDel(key, field []byte) (bool, error) {
 	return exist, nil
 }
 
+func (rds *RedisDataStructure) SAdd(key, member []byte) (bool, error) {
+	meta, err := rds.findMetadata(key, Set)
+	if err != nil {
+		return false, err
+	}
+
+	sk := &setInternalKey{
+		key:     key,
+		version: meta.version,
+		member:  member,
+	}
+	encKey := sk.encode()
+
+	// 先查看是否存在
+	var ok bool
+	if _, err = rds.db.Get(encKey); err == bitcask_go.ErrKeyNotFound {
+		wb := rds.db.NewWriteBatch(bitcask_go.DefaultWriteBatchOptions)
+		meta.size++
+		_ = wb.Put(key, meta.encode())
+		_ = wb.Put(encKey, nil)
+		if err = wb.Commit(); err != nil {
+			return false, err
+		}
+		ok = true
+	}
+
+	return ok, nil
+}
+
+func (rds *RedisDataStructure) SIsMember(key, member []byte) (bool, error) {
+	meta, err := rds.findMetadata(key, Set)
+	if err != nil {
+		return false, err
+	}
+	if meta.size == 0 {
+		return false, nil
+	}
+
+	sk := &setInternalKey{
+		key:     key,
+		version: meta.version,
+		member:  member,
+	}
+	encKey := sk.encode()
+
+	_, err = rds.db.Get(encKey)
+	if err != nil && err != bitcask_go.ErrKeyNotFound {
+		return false, err
+	}
+	if err == bitcask_go.ErrKeyNotFound {
+		return false, nil
+	}
+
+	return true, nil
+}
+
+func (rds *RedisDataStructure) SRem(key, member []byte) (bool, error) {
+	meta, err := rds.findMetadata(key, Set)
+	if err != nil {
+		return false, err
+	}
+	if meta.size == 0 {
+		return false, nil
+	}
+
+	sk := &setInternalKey{
+		key:     key,
+		version: meta.version,
+		member:  member,
+	}
+	encKey := sk.encode()
+
+	_, err = rds.db.Get(encKey)
+	if err != nil && err == bitcask_go.ErrKeyNotFound {
+		return false, nil
+	}
+	wb := rds.db.NewWriteBatch(bitcask_go.DefaultWriteBatchOptions)
+	meta.size--
+
+	_ = wb.Put(encKey, meta.encode())
+	_ = wb.Delete(sk.encode())
+	if err = wb.Commit(); err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
 func (rds *RedisDataStructure) findMetadata(key []byte, dataType RedisDataType) (*metadata, error) {
 	metaBuf, err := rds.db.Get(key)
 	if err != nil && err != bitcask_go.ErrKeyNotFound {
