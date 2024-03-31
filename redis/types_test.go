@@ -122,3 +122,60 @@ func TestRedisDataStructure_SRem(t *testing.T) {
 	member, err = rds.SRem(utils.GetTestKey(1), []byte("val-1"))
 	t.Log(member)
 }
+
+func TestRedisDataStructure_LPush(t *testing.T) {
+	opts := bitcask_go.DefaultOptions
+	dir, _ := os.MkdirTemp("", "bitcask-go-redis-lPush")
+	opts.DirPath = dir
+	rds, err := NewRedisDataStructure(opts)
+	assert.Nil(t, err)
+
+	add, err := rds.LPush(utils.GetTestKey(1), []byte("val-1"))
+	assert.Nil(t, err)
+	t.Log(add)
+	sAdd, err := rds.LPush(utils.GetTestKey(1), []byte("val-1"))
+	assert.Nil(t, err)
+	t.Log(sAdd)
+
+	sAdd, err = rds.LPush(utils.GetTestKey(1), []byte("val-2"))
+	assert.Nil(t, err)
+	t.Log(sAdd)
+
+	res, err := rds.LPop(utils.GetTestKey(1))
+	assert.Nil(t, err)
+	t.Log(string(res))
+	res, err = rds.LPop(utils.GetTestKey(1))
+	assert.Nil(t, err)
+	t.Log(string(res))
+
+	res, err = rds.LPop(utils.GetTestKey(1))
+	assert.Nil(t, err)
+	t.Log(string(res))
+
+}
+
+func TestRedisDataStructure_ZScore(t *testing.T) {
+	opts := bitcask_go.DefaultOptions
+	dir, _ := os.MkdirTemp("", "bitcask-go-redis-zset")
+	opts.DirPath = dir
+	rds, err := NewRedisDataStructure(opts)
+	assert.Nil(t, err)
+
+	ok, err := rds.ZAdd(utils.GetTestKey(1), 113, []byte("val-1"))
+	assert.Nil(t, err)
+	assert.True(t, ok)
+	ok, err = rds.ZAdd(utils.GetTestKey(1), 333, []byte("val-1"))
+	assert.Nil(t, err)
+	assert.False(t, ok)
+	ok, err = rds.ZAdd(utils.GetTestKey(1), 98, []byte("val-2"))
+	assert.Nil(t, err)
+	assert.True(t, ok)
+
+	score, err := rds.ZScore(utils.GetTestKey(1), []byte("val-1"))
+	assert.Nil(t, err)
+	assert.Equal(t, float64(333), score)
+	score, err = rds.ZScore(utils.GetTestKey(1), []byte("val-2"))
+	assert.Nil(t, err)
+	assert.Equal(t, float64(98), score)
+
+}
