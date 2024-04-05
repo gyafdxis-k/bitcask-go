@@ -6,15 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="fc2fc15e-0238-4855-a858-cd979dd6af4c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/batch.go" beforeDir="false" afterPath="$PROJECT_DIR$/batch.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/log_record.go" beforeDir="false" afterPath="$PROJECT_DIR$/data/log_record.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.go" beforeDir="false" afterPath="$PROJECT_DIR$/db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/db_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errors.go" beforeDir="false" afterPath="$PROJECT_DIR$/errors.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fio/io_manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/fio/io_manager.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index/btree_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/index/btree_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/merge.go" beforeDir="false" afterPath="$PROJECT_DIR$/merge.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/options.go" beforeDir="false" afterPath="$PROJECT_DIR$/options.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redis/types.go" beforeDir="false" afterPath="$PROJECT_DIR$/redis/types.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +60,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Go Build.go build main.go">
+  <component name="RunManager" selected="Go Build.go build bitcask-go/redis/cmd">
     <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
@@ -76,7 +70,16 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+    <configuration name="go build bitcask-go/redis/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="bitcask-go" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bitcask-go/redis/cmd" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/redis/cmd/server.go" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build server.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
       <working_directory value="$PROJECT_DIR$" />
       <EXTENSION ID="com.fapiko.jetbrains.plugins.better_direnv.runconfigs.GolandRunConfigurationExtension">
@@ -86,51 +89,43 @@
       <kind value="PACKAGE" />
       <package value="bitcask-go" />
       <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$/http/main.go" />
+      <filePath value="$PROJECT_DIR$/redis/cmd/server.go" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_Delete in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestRedisDataStructure_LPush in bitcask-go/redis" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$/redis" />
+      <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go" />
+      <package value="bitcask-go/redis" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_Delete\E$" />
+      <pattern value="^\QTestRedisDataStructure_LPush\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_Get in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestRedisDataStructure_SRem in bitcask-go/redis" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$/redis" />
+      <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go" />
+      <package value="bitcask-go/redis" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_Get\E$" />
+      <pattern value="^\QTestRedisDataStructure_SRem\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestDB_ListKeys in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestRedisDataStructure_ZScore in bitcask-go/redis" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$" />
+      <working_directory value="$PROJECT_DIR$/redis" />
+      <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bitcask-go" />
+      <package value="bitcask-go/redis" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestDB_ListKeys\E$" />
-      <method v="2" />
-    </configuration>
-    <configuration name="TestDB_Put in bitcask-go" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
-      <module name="bitcask-go" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <package value="bitcask-go" />
-      <directory value="$PROJECT_DIR$" />
-      <filePath value="$PROJECT_DIR$" />
-      <framework value="gotest" />
-      <pattern value="^\QTestDB_Put\E$" />
+      <pattern value="^\QTestRedisDataStructure_ZScore\E$" />
       <method v="2" />
     </configuration>
     <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
@@ -145,11 +140,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build main.go" />
-        <item itemvalue="Go Test.TestDB_Put in bitcask-go" />
-        <item itemvalue="Go Test.TestDB_Get in bitcask-go" />
-        <item itemvalue="Go Test.TestDB_Delete in bitcask-go" />
-        <item itemvalue="Go Test.TestDB_ListKeys in bitcask-go" />
+        <item itemvalue="Go Build.go build bitcask-go/redis/cmd" />
+        <item itemvalue="Go Build.go build server.go" />
+        <item itemvalue="Go Test.TestRedisDataStructure_ZScore in bitcask-go/redis" />
+        <item itemvalue="Go Test.TestRedisDataStructure_LPush in bitcask-go/redis" />
+        <item itemvalue="Go Test.TestRedisDataStructure_SRem in bitcask-go/redis" />
       </list>
     </recent_temporary>
   </component>
@@ -186,6 +181,8 @@
       <workItem from="1709435036856" duration="21168000" />
       <workItem from="1710937942508" duration="9969000" />
       <workItem from="1711370688760" duration="3796000" />
+      <workItem from="1711374591141" duration="17251000" />
+      <workItem from="1712223500405" duration="5468000" />
     </task>
     <servers />
   </component>

@@ -422,3 +422,7 @@ func (rds *RedisDataStructure) ZScore(key []byte, member []byte) (float64, error
 	}
 	return utils.FloatFromBytes(value), nil
 }
+
+func (rds *RedisDataStructure) Close() error {
+	return rds.db.Close()
+}
